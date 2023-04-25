@@ -1,0 +1,6 @@
+migration_demo.settings_form:
+  title: 'Migration Demo'
+  description: 'Configure Migration Demo.'
+  parent: system.admin_config_system
+  route_name: migration_demo.settings_form
+  weight: 10

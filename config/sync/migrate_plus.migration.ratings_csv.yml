@@ -1,0 +1,29 @@
+uuid: 1337509b-bf17-4816-a642-f94fa48a4fd0
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - migrate_source_csv
+id: ratings_csv
+class: null
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - parks
+migration_group: parks
+label: 'CSV of Ratings'
+source:
+  plugin: csv
+  path: modules/custom/migration_demo/csv/ratings.csv
+  delimiter: ','
+  enclosure: '"'
+  ids:
+    - id
+process:
+  name: id
+  description: description
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: rating
+migration_dependencies: {  }

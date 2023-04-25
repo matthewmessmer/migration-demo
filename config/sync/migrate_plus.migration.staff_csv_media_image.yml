@@ -1,0 +1,36 @@
+uuid: 35c11693-a713-4f98-ada7-142cef7dea9a
+langcode: en
+status: true
+dependencies: {  }
+id: staff_csv_media_image
+class: Drupal\migrate\Plugin\Migration
+field_plugin_method: alterFieldInstanceMigration
+cck_plugin_method: null
+migration_tags:
+  - staff
+migration_group: staff
+label: 'Staff Image Media'
+source:
+  plugin: csv
+  path: modules/custom/migration_demo/csv/staff.csv
+  ids:
+    - csv_id
+process:
+  name: csv_image
+  field_media_image/target_id:
+    plugin: migration_lookup
+    migration: staff_csv_file_image
+    no_stub: true
+    source: csv_id
+  field_media_image/alt:
+    plugin: concat
+    source:
+      - csv_firstname
+      - csv_lastname
+    delimiter: ' '
+destination:
+  plugin: 'entity:media'
+  default_bundle: image
+migration_dependencies:
+  required:
+    - staff_csv_file_image

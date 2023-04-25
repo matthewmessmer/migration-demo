@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "json-server": "^0.17.3",
+    "pm2": "^5.3.0"
+  }
+}

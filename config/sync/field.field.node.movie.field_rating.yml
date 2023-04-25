@@ -1,0 +1,29 @@
+uuid: 9ee60046-b612-41c3-a1f5-6484bca7066b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rating
+    - node.type.movie
+    - taxonomy.vocabulary.rating
+id: node.movie.field_rating
+field_name: field_rating
+entity_type: node
+bundle: movie
+label: Rating
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      rating: rating
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: facility_type
+field_type: entity_reference

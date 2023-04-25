@@ -1,0 +1,68 @@
+uuid: 28ff5aad-b10b-42b4-b4fa-2c0587fedd0c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.movie.body
+    - field.field.node.movie.field_closed_captioning
+    - field.field.node.movie.field_date
+    - field.field.node.movie.field_park
+    - field.field.node.movie.field_rating
+    - node.type.movie
+  module:
+    - datetime
+    - text
+    - user
+id: node.movie.default
+targetEntityType: node
+bundle: movie
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_closed_captioning:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_park:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_rating:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

@@ -1,0 +1,7 @@
+migration_demo.settings_form:
+  path: '/admin/config/system/migration-demo'
+  defaults:
+    _title: 'Migration Demo settings'
+    _form: 'Drupal\migration_demo\Form\SettingsForm'
+  requirements:
+    _permission: 'administer migration_demo configuration'

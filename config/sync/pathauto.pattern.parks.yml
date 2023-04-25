@@ -1,0 +1,22 @@
+uuid: 6f14922b-9c93-423c-b6e8-ba5e1590a93c
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: parks
+label: Parks
+type: 'canonical_entities:node'
+pattern: 'parks/[node:title]'
+selection_criteria:
+  a34597a3-faff-4f33-b19d-86cdcb982ede:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: a34597a3-faff-4f33-b19d-86cdcb982ede
+    context_mapping:
+      node: node
+    bundles:
+      park: park
+selection_logic: and
+weight: -5
+relationships: {  }

@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Migration Demo module.
+ */
+
+use Drupal\Core\Database\Database;
+use Drupal\migrate_tools\MigrateExecutable;
+use Drupal\migrate\MigrateMessage;
+use Drupal\migrate\Plugin\MigrationInterface;
+use Drupal\migrate\Plugin\MigrateSourceInterface;
+use Drupal\migrate\Row;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_cron().
+ */
+function migration_demo_cron() {
+  // Run migration on cron.
+  $migration = Drupal::service('plugin.manager.migration')->createInstance('movies_json');
+
+  // Reset migration status.
+  if ($migration->getStatus() !== MigrationInterface::STATUS_IDLE) {
+    $migration->setStatus(MigrationInterface::STATUS_IDLE);
+  }
+
+  // Set --update flag.
+  $migration->getIdMap()->prepareUpdate();
+
+  // Set --sync flag.
+  //$migration->set('syncSource', TRUE);
+
+  $executable = new MigrateExecutable($migration, new MigrateMessage());
+  $status = $executable->import();
+
+  if ($status === MigrationInterface::RESULT_FAILED) {
+    // Error handling.
+  }
+  elseif ($status === MigrationInterface::RESULT_COMPLETED) {
+    // Do something on success.
+  }
+}
+
+/**
+ * Implements hook_migrate_prepare_row().
+ */
+function migration_demo_migrate_prepare_row(Row $row, MigrateSourceInterface $source, MigrationInterface $migration) {
+  // Process data based on migration id.
+  switch ($migration->id()) {
+
+    case 'movies_json':
+      // Set promoted status based on park.
+      $park_id = $row->getSourceProperty('src_park_id');
+      $promoted_parks = Drupal::config('migration_demo.settings')->get('promoted_parks');
+
+      $nid = migration_demo_map_lookup('parks_json', $park_id);
+
+      if (in_array($nid, $promoted_parks)) {
+        $row->setSourceProperty('custom_promoted', NodeInterface::PROMOTED);
+      }
+      else {
+        $row->setSourceProperty('custom_promoted', NodeInterface::NOT_PROMOTED);
+      }
+      break;
+  }
+}
+
+/**
+ * Returns migrated content destination id from source id.
+ *
+ * @param string $migration_id
+ *   Migration id.
+ * @param mixed $source_id
+ *  Migration source id.
+ *
+ * @return mixed
+ *   Migration destination id.
+ */
+function migration_demo_map_lookup($migration_id, $source_id) {
+  $db = Database::getConnection();
+
+  $results = $db->select('migrate_map_' . $migration_id, 'migrate_map')
+    ->fields('migrate_map', ['destid1'])
+    ->condition('migrate_map.sourceid1', $source_id, '=')
+    ->execute()
+    ->fetchAll();
+
+  if (!empty($results)) {
+    foreach ($results as $result) {
+      return $result->destid1;
+    }
+  }
+  else {
+    return 0;
+  }
+}

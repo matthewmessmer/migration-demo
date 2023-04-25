@@ -1,0 +1,34 @@
+uuid: 04035816-5a66-4b94-a573-8d4ced1c5ece
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.park.body
+    - field.field.node.park.field_address
+    - field.field.node.park.field_geofield
+    - node.type.park
+  module:
+    - text
+    - user
+id: node.park.teaser
+targetEntityType: node
+bundle: park
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_address: true
+  field_geofield: true

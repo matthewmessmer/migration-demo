@@ -1,0 +1,79 @@
+uuid: 3614ba3c-e9d4-4eb5-a24f-5be368e72bde
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - migrate_plus
+id: movies_json
+class: null
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - parks
+migration_group: parks
+label: 'JSON feed of Movies'
+source:
+  plugin: url
+  data_fetcher_plugin: date_http
+  data_parser_plugin: json
+  headers:
+    Accept: application/json
+    Content-Type: application/json
+  urls:
+    - 'http://migration-api.lndo.site/movies'
+  ids:
+    src_park_id:
+      type: string
+    src_date:
+      type: string
+  fields:
+    -
+      name: src_park_id
+      label: 'Park Number'
+      selector: park_no
+    -
+      name: src_label
+      label: 'Movie Name'
+      selector: title
+    -
+      name: src_date
+      label: Date
+      selector: date
+    -
+      name: src_rating
+      label: Rating
+      selector: rating
+    -
+      name: src_cc
+      label: 'Closed Captioning'
+      selector: cc
+process:
+  title: src_label
+  field_park:
+    plugin: migration_lookup
+    migration: parks_json
+    source: src_park_id
+    no_stub: true
+  field_rating:
+    plugin: migration_lookup
+    migration: ratings_csv
+    source: src_rating
+  field_closed_captioning:
+    plugin: static_map
+    source: src_cc
+    map:
+      'Y': 1
+      'N': 0
+  field_date:
+    plugin: format_date
+    source: src_date
+    from_format: 'Y-m-d\TH:i:s.v'
+    to_format: Y-m-d
+    from_timezone: UTC
+    to_timezone: UTC
+  promote: custom_promoted
+destination:
+  plugin: 'entity:node'
+  default_bundle: movie
+migration_dependencies: {  }

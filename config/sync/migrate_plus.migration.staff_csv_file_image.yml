@@ -1,0 +1,48 @@
+uuid: e0ec49cb-9e54-4b36-ba2d-f59e1e9cc8f2
+langcode: en
+status: true
+dependencies: {  }
+id: staff_csv_file_image
+class: Drupal\migrate\Plugin\Migration
+field_plugin_method: alterFieldInstanceMigration
+cck_plugin_method: null
+migration_tags:
+  - staff
+migration_group: staff
+label: 'Staff Image Files'
+source:
+  constants:
+    source_base_path: modules/custom/migration_demo/images
+    uri_file: 'public://staff/image'
+  plugin: csv
+  path: modules/custom/migration_demo/csv/staff.csv
+  ids:
+    - csv_id
+process:
+  filename: csv_image
+  uri_file:
+    -
+      plugin: concat
+      delimiter: /
+      source:
+        - constants/uri_file
+        - csv_image
+    -
+      plugin: urlencode
+  source_full_path:
+    -
+      plugin: concat
+      delimiter: /
+      source:
+        - constants/source_base_path
+        - csv_image
+    -
+      plugin: urlencode
+  uri:
+    plugin: file_copy
+    source:
+      - '@source_full_path'
+      - '@uri_file'
+destination:
+  plugin: 'entity:file'
+migration_dependencies: {  }

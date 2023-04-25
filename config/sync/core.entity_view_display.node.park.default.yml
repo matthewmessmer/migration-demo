@@ -1,0 +1,119 @@
+uuid: 492962e7-5449-41f5-8076-58652fd387d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.park.body
+    - field.field.node.park.field_address
+    - field.field.node.park.field_geofield
+    - node.type.park
+  module:
+    - address
+    - geofield_map
+    - text
+    - user
+id: node.park.default
+targetEntityType: node
+bundle: park
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_address:
+    type: address_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_geofield:
+    type: geofield_google_map
+    label: above
+    settings:
+      map_dimensions:
+        width: 100%
+        height: 450px
+      map_empty:
+        empty_behaviour: '0'
+        empty_message: 'No Geofield Value entered for this field'
+      map_center:
+        lat: !!float 42
+        lon: 12.5
+        center_force: false
+      map_zoom_and_pan:
+        zoom:
+          initial: 6
+          force: false
+          min: 1
+          max: 22
+          finer: 0
+        scrollwheel: true
+        draggable: true
+        map_reset_position: TOP_RIGHT
+        map_reset: false
+      map_controls:
+        zoom_control: true
+        map_type_id: roadmap
+        map_type_control: true
+        map_type_control_options_type_ids:
+          roadmap: roadmap
+          satellite: satellite
+          hybrid: hybrid
+          terrain: terrain
+        scale_control: true
+        street_view_control: true
+        fullscreen_control: true
+        disable_default_ui: false
+      map_marker_and_infowindow:
+        icon_image_mode: icon_file
+        icon_file_wrapper:
+          icon_file: ''
+        icon_image_path: ''
+        infowindow_field: title
+        view_mode: full
+        tooltip_field: title
+        multivalue_split: false
+        force_open: false
+      map_oms:
+        map_oms_control: true
+        map_oms_options: '{"markersWontMove": "true", "markersWontHide": "true", "basicFormatEvents": "true", "nearbyDistance": 3}'
+      map_additional_options: ''
+      map_geometries_options: '{"strokeColor":"black","strokeOpacity":"0.8","strokeWeight":2,"fillColor":"blue","fillOpacity":"0.1", "clickable": false}'
+      custom_style_map:
+        custom_style_name: ''
+        custom_style_options: ''
+        custom_style_control: false
+        custom_style_default: false
+      map_markercluster:
+        markercluster_additional_options: '{"maxZoom":12, "gridSize":50}'
+        markercluster_control: false
+      map_geocoder:
+        control: 0
+        settings:
+          providers: {  }
+          min_terms: 4
+          delay: 800
+          options: ''
+          zoom: 16
+          infowindow: false
+          position: topright
+          input_size: 25
+      map_additional_libraries: {  }
+      map_lazy_load:
+        lazy_load: false
+      gmap_api_key: ''
+      weight: null
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

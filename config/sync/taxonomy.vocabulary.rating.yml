@@ -1,0 +1,8 @@
+uuid: e61f0785-195c-44b5-b4f3-36b2d5bfa9b4
+langcode: en
+status: true
+dependencies: {  }
+name: Rating
+vid: rating
+description: ''
+weight: 0

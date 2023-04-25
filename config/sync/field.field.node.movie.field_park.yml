@@ -1,0 +1,29 @@
+uuid: 0209ae63-1923-455b-8240-c2249461d43d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_park
+    - node.type.movie
+    - node.type.park
+id: node.movie.field_park
+field_name: field_park
+entity_type: node
+bundle: movie
+label: Park
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      park: park
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
