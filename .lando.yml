@@ -1,0 +1,57 @@
+name: migration-demo
+recipe: drupal9
+config:
+  webroot: web
+services:
+  appserver:
+    config:
+      php: .lando/php.ini
+    xdebug: true
+    build_as_root:
+      - rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && /etc/init.d/apache2 reload
+    overrides:
+      # Pass SSH keys.
+      volumes:
+        - type: bind
+          # Linux user: add 'export LANDO_SSH_AUTH_SOCK="${SSH_AUTH_SOCK}"' at the end of your ~/.bashrc:
+          # Mac user: MacOS specific path is here as the variable default value, nothing to do.
+          source: "${LANDO_SSH_AUTH_SOCK:-/run/host-services/ssh-auth.sock}"
+          target: /run/host-services/ssh-auth.sock
+      environment:
+        PHP_IDE_CONFIG: "serverName=migration-demo.lndo.site"
+        DRUSH_OPTIONS_URI: "https://migration-demo.lndo.site/"
+        SSH_AUTH_SOCK: /run/host-services/ssh-auth.sock
+  database:
+    portforward: 23020
+  node:
+    type: node:14
+    ssl: false
+    build:
+      - npm install json-server
+      - npm install pm2
+events:
+  post-start:
+    - node: pm2 start json-server -- db.json -H 0.0.0.0
+tooling:
+  xdebug-on:
+    service: appserver
+    description: Enable xdebug for apache.
+    cmd: "docker-php-ext-enable xdebug && /etc/init.d/apache2 reload"
+    user: root
+  xdebug-off:
+    service: appserver
+    description: Disable xdebug for apache.
+    cmd: "rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && /etc/init.d/apache2 reload"
+    user: root
+  ssh-fix:
+    service: appserver
+    description: Fix ssh auth sock permission for MacOS users. Lando rebuild fixes the problem as well.
+    cmd: "/bin/chgrp www-data /run/host-services/ssh-auth.sock && /bin/chmod g+w /run/host-services/ssh-auth.sock"
+    user: root
+  npm:
+    service: node
+  pm2:
+    service: node
+proxy:
+  node:
+    - migration-api.lndo.site:3000
