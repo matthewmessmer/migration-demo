@@ -20,7 +20,9 @@ composer install --ignore-platform-reqs
 lando start
 lando drush si --existing-config
 ```
-* Access the site
+* If you are on Linux and have issues starting Lando, try adding `export LANDO_SSH_AUTH_SOCK="${SSH_AUTH_SOCK}"` at the end of your ~/.bashrc
+
+## Access the site
 * `https://migration-demo.lndo.site` Drupal site
 * `http://migration-api.lndo.site` Mock API powered by `https://github.com/typicode/json-server`
 
